@@ -16,13 +16,34 @@ function App() {
   const [uploadFileRequest, setUploadFileRequest] = useState<UploadFileRequest>({
   } as UploadFileRequest);
 
-  const handleChange = (e: any) => {
+  const handleChangeEmail = (e: any) => {
     setUploadFileRequest({ ...uploadFileRequest, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = () => {
-    setUploadFileRequest({} as UploadFileRequest);
-    reset();
+  const handleChangeFile = (e: any) => {
+    console.log(e.target.files[0].name);
+    let a = e.target.files[0];
+    setUploadFileRequest({ ...uploadFileRequest, formFile: a, fileName: e.target.files[0].name });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("email", uploadFileRequest.email);
+      formData.append("formFile", uploadFileRequest.formFile);
+      formData.append("fileName", uploadFileRequest.fileName);
+
+      const requestOptions = {
+        method: 'POST',
+        body: formData
+      };
+
+      const res = await fetch("https://localhost:7048/BlobStorage/AddFileToBlobStorage", requestOptions);
+      console.log(await res.json());
+    }
+    catch (ex) {
+      console.log(ex);
+    }
   };
 
   return (
@@ -51,7 +72,7 @@ function App() {
                   message: "Invalid email format",
                 },
               })}
-              onChange={(e: any) => handleChange(e)}
+              onChange={(e: any) => handleChangeEmail(e)}
             />
             <div style={{ height: 20 }}>
               {errorsForUploadLoadFileForm?.email && (
@@ -73,8 +94,8 @@ function App() {
               {...registerUploadLoadFileForm("fileName", {
                 required: "File must be selected"
               })}
-              onChange={(e: any) => handleChange(e)}
-              accept=".docx,"
+              onChange={(e: any) => handleChangeFile(e)}
+              accept=".docx"
             />
             <div style={{ height: 20 }}>
               {errorsForUploadLoadFileForm?.fileName && (

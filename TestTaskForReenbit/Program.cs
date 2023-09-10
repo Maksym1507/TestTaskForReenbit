@@ -1,19 +1,20 @@
 using Azure.Storage.Blobs;
+using TestTaskForReenbit.Services;
+using TestTaskForReenbit.Services.Abstractions;
 
 namespace TestTaskForReenbit
 {
     public class Program
     {
-        public static async void Main(string[] args)
+        public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddTransient<IBlobStorageService, BlobStorageService>();
 
             builder.Services.AddCors(options =>
             {
@@ -28,7 +29,6 @@ namespace TestTaskForReenbit
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -38,8 +38,6 @@ namespace TestTaskForReenbit
             app.UseHttpsRedirection();
 
             app.UseCors("CorsPolicy");
-
-            app.UseAuthorization();
 
             app.MapControllers();
 
