@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TestTaskForReenbit.Data.Requests;
+using TestTaskForReenbit.Data.Responses;
 using TestTaskForReenbit.Services.Abstractions;
 
 namespace TestTaskForReenbit.Controllers
@@ -21,7 +22,7 @@ namespace TestTaskForReenbit.Controllers
         public async Task<IActionResult> AddFileToBlobStorage([FromForm] UploadFileRequest request)
         {
             var result = await _blobStorageService.AddFileToBlobStorageAsync(request.Email, request.FileName, request.FormFile);
-            return Ok(result);
+            return Ok(new UploadFileResponse() { Message = result });
         }
     }
 }

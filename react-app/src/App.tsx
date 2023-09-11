@@ -22,8 +22,7 @@ function App() {
 
   const handleChangeFile = (e: any) => {
     console.log(e.target.files[0].name);
-    let a = e.target.files[0];
-    setUploadFileRequest({ ...uploadFileRequest, formFile: a, fileName: e.target.files[0].name });
+    setUploadFileRequest({ ...uploadFileRequest, formFile: e.target.files[0], fileName: e.target.files[0].name });
   };
 
   const handleSubmit = async () => {
