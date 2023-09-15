@@ -15,7 +15,7 @@ namespace BlobStorageFunction
     public class BlobStorageFunction
     {
         [FunctionName("EmailNotificationAfterFileHasBeenAddedToBlobStorage")]
-        public async Task Run([BlobTrigger("uploadedfiles/{name}", Connection = "storageAccount")] Stream myBlob,
+        public async Task Run([BlobTrigger("uploadedfiles/{name}", Connection = "BlobStorageConnectionString")] Stream myBlob,
             string name,
             Uri uri,
             IDictionary<string,
@@ -38,7 +38,7 @@ namespace BlobStorageFunction
                     ExpiresOn = DateTime.UtcNow.AddHours(1),
                 };
 
-                blobSasBuilder.SetPermissions((BlobSasPermissions.Read);
+                blobSasBuilder.SetPermissions((BlobSasPermissions.Read));
                 var sasToken = blobSasBuilder.ToSasQueryParameters(new StorageSharedKeyCredential(Environment.GetEnvironmentVariable("StorageAccount"), Environment.GetEnvironmentVariable("BlobStorageApiKey"))).ToString();
                 var sasUrl = $"{uri}?{sasToken}";
 
@@ -60,6 +60,10 @@ namespace BlobStorageFunction
                 {
                     log.LogError($"Error sending email: {ex.Message}");
                 }
+            }
+            else
+            {
+                log.LogError($"Not founded recipient");
             }
         }
     }

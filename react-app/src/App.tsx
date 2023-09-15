@@ -1,11 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import UploadFileRequest from './models/requests/UploadFileRequest';
 import { Button, Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
+import UploadFileResponse from './models/responses/UploadFileResponse';
 
 function App() {
+  const [uploadFileResponse, setUploadFileResponse] = useState<UploadFileResponse>();
+
+  useEffect(() => {
+    debugger;
+    if (uploadFileResponse) {
+      alert(uploadFileResponse.message);
+    }
+  }, [uploadFileResponse]);
+
   const {
     register: registerUploadLoadFileForm,
     formState: { errors: errorsForUploadLoadFileForm, isValid },
@@ -32,13 +42,16 @@ function App() {
       formData.append("formFile", uploadFileRequest.formFile);
       formData.append("fileName", uploadFileRequest.fileName);
 
+      setUploadFileRequest({} as UploadFileRequest);
+      reset();
+
       const requestOptions = {
         method: 'POST',
         body: formData
       };
 
-      const res = await fetch("https://localhost:7048/BlobStorage/AddFileToBlobStorage", requestOptions);
-      console.log(await res.json());
+      const res = await fetch("https://testtaskforreenbit.azurewebsites.net/BlobStorage/AddFileToBlobStorage", requestOptions);
+      setUploadFileResponse(await res.json());
     }
     catch (ex) {
       console.log(ex);
@@ -48,7 +61,7 @@ function App() {
   return (
     <div className="App container h-100">
       <div className="row d-flex justify-content-center align-items-center h-100">
-        <h2>Form for addition file in Blob Storage</h2>
+        <h2>Form gefor addition file in Blob Stora</h2>
         <Form
           noValidate
           className="ms-3 mb-3 pt-2 pb-2"

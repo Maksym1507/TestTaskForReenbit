@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "appInsights1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/microsoft.insights/components/BlobStorageFunction",
+      "type": "appInsights.azure",
+      "connectionId": "APPLICATIONINSIGHTS_CONNECTION_STRING"
+    },
+    "storage1": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/BlobStorageFunction/providers/Microsoft.ServiceLinker/linkers/BlobStorageConnectionString_CAF74B34A3, /subscriptions/4b64ac93-f83b-4f39-a01d-186f39043e56/resourcegroups/rg--illarionov-eastus-dev/providers/Microsoft.Web/sites/BlobStorageFunction/providers/Microsoft.ServiceLinker/linkers/BlobStorageConnectionString_AAB253B5FF",
+      "secretStore": null,
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Storage/storageAccounts/stillarionovwesteurope",
+      "type": "storage.azure",
+      "connectionId": "BlobStorageConnectionString"
+    }
+  }
+}
